@@ -1,0 +1,41 @@
+<%- include('header'); -%>
+
+<body>
+    <h1><%= kindOfDay %></h1>
+    <h1>Todo List:</h1>
+    <ul id="todo-list">
+        <% for (var i = 0; i < newItems.length; i++) { %>
+        <li>
+         
+            <input type="checkbox" class="task-checkbox" onchange="toggleTask(this)">
+            <span style="margin-left:20px"><%= newItems[i] %></span>
+
+            <form action="/delete" method="post" style="margin-bottom: 20px;" >
+                <input type="hidden" name="taskIndex" value="<%= i %>">
+                <input type="hidden" name="listType" value="<%= kindOfDay === 'Worklist' ? 'Worklist' : 'default' %>">
+                <button class="delete-btn" type="submit">×</button>
+            </form>
+        </li>
+        <% } %>
+    </ul>
+
+    <!-- Add new task form -->
+    <form action="/" method="post">
+        <input type="text" id="task" name="newItem" placeholder="Enter the task" autocomplete="off">
+        <button type="submit" name="button" value="<%= kindOfDay %>">+</button>
+    </form>
+
+    <script>
+        // Function to toggle task completion
+        function toggleTask(checkbox) {
+            const listItem = checkbox.parentElement;
+            if (checkbox.checked) {
+                listItem.classList.add('completed');
+            } else {
+                listItem.classList.remove('completed');
+            }
+        }
+    </script>
+</body>
+
+<%- include('footer'); -%>
